@@ -34,48 +34,54 @@ export type Format = {
 }
 
 export const getStaticProps = async () => {
-    const response = await fetch('https://gutendex.com/books');
-    const data = await response.json();
+    try {
+        const response = await fetch('https://gutendex.com/books');
+        const data = await response.json();
 
-    if(!data) {
+        if (!data) {
+            return {
+                notFound: true,
+            }
+        }
+
         return {
-            notFound: true,
+            props: {books: data},
+        }
+    } catch {
+        return {
+            props: {books: null},
         }
     }
-
-    return {
-        props: {books: data},
-    }
-}
+};
 
 const Books = ({books}: any) => {
-        return (
+    return (
+        <div>
+            <Head>
+                <title>Books</title>
+            </Head>
+            <Title text='Bookshelf'/>
             <div>
-                <Head>
-                    <title>Books</title>
-                </Head>
-                <Title text='Bookshelf'/>
-                <div>
-                    {books && books.results.map(({id, title, download_count, authors, formats}: BookType) => {
-                        let urlAddress = formats['image/jpeg']
-                        let name = authors[0]?.name ? authors[0].name : ''
+                {books && books.results.map(({id, title, download_count, authors, formats}: BookType) => {
+                    let urlAddress = formats['image/jpeg']
+                    let name = authors[0]?.name ? authors[0].name : ''
 
-                        return (
-                            <div key={id}>
+                    return (
+                        <div key={id}>
 
-                                <div><Link href={`/books/${id}`}><img src={urlAddress} alt={'wrapper'}/></Link></div>
-                                    <div>
-                                        <div><Link href={`/books/${id}`}><strong>Title: {title}</strong></Link></div>
-                                        <div><i>Author(s): {name}</i></div>
-                                        <div>Total downloads count: {download_count}</div>
-                                    </div>
+                            <div><Link href={`/books/${id}`}><img src={urlAddress} alt={'wrapper'}/></Link></div>
+                            <div>
+                                <div><Link href={`/books/${id}`}><strong>Title: {title}</strong></Link></div>
+                                <div><i>Author(s): {name}</i></div>
+                                <div>Total downloads count: {download_count}</div>
                             </div>
-                        )
-                    })}
-                </div>
+                        </div>
+                    )
+                })}
             </div>
-        );
-    };
+        </div>
+    );
+};
 
 export default Books;
 
