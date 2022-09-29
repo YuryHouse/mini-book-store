@@ -7,7 +7,7 @@ import {NextPageContext} from "next";
 
 
 const Book = ({book: serverBook}: any) => {
-    const[book, setBook] = useState(serverBook)
+    const [book, setBook] = useState(serverBook)
     const router = useRouter()
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const Book = ({book: serverBook}: any) => {
     }, [])
 
     if (!book) {
-       return <Title text={'Loading...'}/>
+        return <Title text={'Loading...'}/>
     }
 
     return (
@@ -31,13 +31,17 @@ const Book = ({book: serverBook}: any) => {
             <Head>
                 <title>Book</title>
             </Head>
-            <Title text = {book.title} />
+            <Title text={book.title}/>
             <div>
                 <strong>Item ID: </strong>
                 {book.id}
             </div>
             <hr/>
-            <div><img src={book.formats['image/jpeg']} alt={'wrapper'}/></div>
+            <div>
+                <picture>
+                    <img src={book.formats['image/jpeg']} alt={'wrapper'}/>
+                </picture>
+            </div>
             <div>
                 <strong>Author(s): </strong>
                 {book.authors[0]?.name}
@@ -50,15 +54,15 @@ const Book = ({book: serverBook}: any) => {
     );
 };
 
-Book.getInitialProps = async ({query, req}: NextPageContext ) => {
-    if(!req) {
+Book.getInitialProps = async ({query, req}: NextPageContext) => {
+    if (!req) {
         return {book: null}
     }
     const response = await fetch(`https://gutendex.com/books/${query.id}`);
     const book = await response.json();
 
     return {
-       book
+        book
     }
 }
 

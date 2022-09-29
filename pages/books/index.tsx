@@ -69,7 +69,11 @@ const Books = ({books}: any) => {
                     return (
                         <div key={id}>
 
-                            <div><Link href={`/books/${id}`}><img src={urlAddress} alt={'wrapper'}/></Link></div>
+                            <div><Link href={`/books/${id}`}>
+                                <picture>
+                                    <img src={urlAddress} alt={'wrapper'}/>
+                                </picture>
+                            </Link></div>
                             <div>
                                 <div><Link href={`/books/${id}`}><strong>Title: {title}</strong></Link></div>
                                 <div><i>Author(s): {name}</i></div>
