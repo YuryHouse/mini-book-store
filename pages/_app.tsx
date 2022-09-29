@@ -2,6 +2,7 @@ import '../styles/globals.scss'
 import {AppProps} from "next/app";
 import Layout from "../components/Layout";
 import Head from "next/head";
+import NextNProgress from "nextjs-progressbar";
 
 const MyApp = ({Component, pageProps}: AppProps) => (
     <Layout>
@@ -12,6 +13,13 @@ const MyApp = ({Component, pageProps}: AppProps) => (
                 rel="stylesheet"/>
         </Head>
         <main>
+            <NextNProgress
+                color="#29D"
+                startPosition={0.3}
+                stopDelayMs={200}
+                height={3}
+                showOnShallow={true}
+            />
             <Component {...pageProps} />
         </main>
     </Layout>
